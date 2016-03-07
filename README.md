@@ -4,7 +4,7 @@ A simple pyhton script allowing Slackware users to recursively retrieve all depe
 
 # How to use it ?
 
-Run from CLI:
+As root user run from CLI:
 
 ````
 sbo_deps.py <package name>
@@ -12,7 +12,8 @@ sbo_deps.py <package name>
 
 # How this work ?
 
-The sbo_deps.py search for and parse the <package name>.info file and retrieve all the package names at the REQUIRES line.
+The sbo_deps.py search for and parse the &lt;package name&gt;.info file and retrieve all the package names at the REQUIRES line.
+
 Once done, it do the same for all retrieved package names.
 
 # Installation
