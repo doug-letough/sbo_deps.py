@@ -22,6 +22,8 @@ def get_info(pkg):
         for f in files:
             if f == "%s.info" %pkg:
                 return os.path.join(root, f)
+        print "Unable to retrieve %s. Please check package name." %pkg
+        abort(pkg)
 
 def get_deps(pkg):
     """ Recursively retrieve all pkg dependencies
