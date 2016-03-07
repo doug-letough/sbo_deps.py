@@ -25,9 +25,6 @@ Copy sbo_deps.py file somewhere in the root $PATH (/usr/local/bin is a good choi
 This software is published and copyrighted by Doug Le Tough 
 (doug.letough@free.fr) and released under the W.T.F.P.L.
 
-It was initially based upon the Vindium python starter available here :
-https://github.com/ornicar/vindinium-starter-python
-
 A copy of the W.T.F.P.L is available in the LICENSE.txt file 
 that should accompany this source code.
 
