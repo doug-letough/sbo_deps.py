@@ -16,6 +16,11 @@ The sbo_deps.py search for and parse the &lt;package name&gt;.info file and retr
 
 Once done, it do the same for all retrieved package names.
 
+# Requirements
+
+- Slackware Linux (http://www.slackware.com)
+- sbopkg (https://sbopkg.org)
+
 # Installation
 
 Copy sbo_deps.py file somewhere in the root $PATH (/usr/local/bin is a good choice)
