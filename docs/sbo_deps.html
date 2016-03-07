@@ -1,0 +1,61 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module sbo_deps</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>sbo_deps</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doug/projets/python/sbo_deps/sbo_deps.py">/home/doug/projets/python/sbo_deps/sbo_deps.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;-*-&nbsp;coding:&nbsp;utf-8</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="argparse.html">argparse</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top><a href="subprocess.html">subprocess</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-abort"><strong>abort</strong></a>(pkg, deps)</dt><dd><tt>Abort&nbsp;all&nbsp;operations<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name&nbsp;(Not&nbsp;really&nbsp;needed&nbsp;here)<br>
+-&nbsp;all_deps:&nbsp;List&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;(Not&nbsp;really&nbsp;needed&nbsp;here)</tt></dd></dl>
+ <dl><dt><a name="-get_deps"><strong>get_deps</strong></a>(pkg, all_deps)</dt><dd><tt>Recursively&nbsp;retrieve&nbsp;all&nbsp;pkg&nbsp;dependencies<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name<br>
+-&nbsp;all_deps:&nbsp;List&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;(see&nbsp;ALL_DEPS)</tt></dd></dl>
+ <dl><dt><a name="-get_info"><strong>get_info</strong></a>(pkg)</dt><dd><tt>Return&nbsp;the&nbsp;.info&nbsp;file&nbsp;for&nbsp;pkg<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name</tt></dd></dl>
+ <dl><dt><a name="-install_pkg"><strong>install_pkg</strong></a>(pkg, deps)</dt><dd><tt>Install&nbsp;package&nbsp;and&nbsp;all&nbsp;its&nbsp;dependencies&nbsp;is&nbsp;GOOD&nbsp;order&nbsp;using&nbsp;sbopkg<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name<br>
+-&nbsp;all_deps:&nbsp;List&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;(see&nbsp;ALL_DEPS)</tt></dd></dl>
+ <dl><dt><a name="-list_deps"><strong>list_deps</strong></a>(pkg, deps)</dt><dd><tt>Display&nbsp;a&nbsp;fancy&nbsp;list&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;and&nbsp;<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name<br>
+-&nbsp;all_deps:&nbsp;List&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;(see&nbsp;ALL_DEPS)</tt></dd></dl>
+ <dl><dt><a name="-prompt_for_install"><strong>prompt_for_install</strong></a>(pkg, deps)</dt><dd><tt>Prompt&nbsp;user&nbsp;for&nbsp;Install&nbsp;/&nbsp;Abort&nbsp;or&nbsp;List&nbsp;dependecies<br>
+-&nbsp;pkg:&nbsp;Package&nbsp;name<br>
+-&nbsp;all_deps:&nbsp;List&nbsp;of&nbsp;all&nbsp;dependencies&nbsp;(see&nbsp;ALL_DEPS)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ALL_DEPS</strong> = []<br>
+<strong>SBO_EXE</strong> = '/usr/sbin/sbopkg'<br>
+<strong>SBO_OPTIONS</strong> = '-b'<br>
+<strong>SBO_PATH</strong> = '/var/lib/sbopkg/SBo'<br>
+<strong>SBO_REPO_PATH</strong> = '/var/lib/sbopkg/SBo/14.1'<br>
+<strong>SLACKWARE_VERSION</strong> = '14.1'</td></tr></table>
+</body></html>
