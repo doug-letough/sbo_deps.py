@@ -10,7 +10,7 @@ As root user run from CLI:
 sbo_deps.py <package name>
 ````
 
-# How this work ?
+# How this works ?
 
 The sbo_deps.py search for and parse the &lt;package name&gt;.info file and retrieve all the package names at the REQUIRES line.
 
