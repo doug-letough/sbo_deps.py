@@ -5,10 +5,11 @@ import os, re, subprocess, argparse
 
 # Adjust to your config the following variables
 SBO_EXE = '/usr/sbin/sbopkg'
-SBO_OPTIONS = '-b'
-SBO_PATH = '/var/lib/sbopkg/SBo'
+SBO_PATH = '/var/lib/sbopkg'
 SLACKWARE_VERSION = '14.1'
-SBO_REPO_PATH = os.path.join(SBO_PATH, SLACKWARE_VERSION)
+TMP_QUEUE_FILE = 'tmp.sqf'
+SBO_REPO_PATH = os.path.join(SBO_PATH, 'SBo', SLACKWARE_VERSION)
+SBO_QUEUES_PATH = os.path.join(SBO_PATH, 'queues')
 
 # Don't touch this ;-)
 ALL_DEPS = []
@@ -22,10 +23,9 @@ def get_info(pkg):
             if f == "%s.info" %pkg:
                 return os.path.join(root, f)
 
-def get_deps(pkg, all_deps):
+def get_deps(pkg):
     """ Recursively retrieve all pkg dependencies
         - pkg: Package name
-        - all_deps: List of all dependencies (see ALL_DEPS)
     """
     print "Looking for %s dependencies." %pkg
     match_requires = 'REQUIRES'
@@ -40,55 +40,79 @@ def get_deps(pkg, all_deps):
                     # This package have some special instructions to be read first
                     print "\033[31mPlease read the README file for %s\033[0m" %pkg
                     abort(None, None)
-                if dep.strip() not in all_deps and len(dep.strip()) > 0:
+                if dep.strip() not in ALL_DEPS and len(dep.strip()) > 0:
                     # Retrieve dependecies for this dependency 
-                    get_deps(dep.strip(), all_deps)
+                    get_deps(dep.strip())
                     # add current dependency to dependencies list
-                    all_deps.append(dep.strip())
+                    ALL_DEPS.append(dep.strip())
+    f.close()
 
-def prompt_for_install(pkg, deps):
+def prompt_for_install(pkg):
     """ Prompt user for Install / Abort or List dependecies
         - pkg: Package name
-        - all_deps: List of all dependencies (see ALL_DEPS)
     """
-    choices = {'Y': install_pkg, 'y': install_pkg, 'N': abort, 'n': abort, 'L': list_deps, 'l': list_deps}
-    print "Would you like to install %s and all its dependencies ?" %pkg
-    print "\t[Y] - Yes"
-    print "\t[N] - No"
+    choices = {'I': install_pkg, 'i': install_pkg, \
+                'B': build_pkg, 'b': build_pkg, \
+                'A': abort, 'a': abort, \
+                'L': list_deps, 'l': list_deps
+                }
+    print "What next ?"
+    print "\t[I] - Install %s and all its dependencies" %pkg
+    print "\t[B] - Build %s (no installation) and all its dependencies" %pkg
     print "\t[L] - List %s dependencies" %pkg
+    print "\t[A] - Abort"
     answer = raw_input()
     if answer not in choices:
-        prompt_for_install(pkg, deps)
-    choices[answer](pkg, deps)
+        prompt_for_install(pkg)
+    choices[answer](pkg)
 
-def list_deps(pkg, deps):
+def list_deps(pkg):
     """ Display a fancy list of all dependencies and 
         - pkg: Package name
-        - all_deps: List of all dependencies (see ALL_DEPS)
     """
-    for dep in deps:
+    for dep in ALL_DEPS:
         print ' - %s' %dep
-    prompt_for_install(pkg, deps)
+    prompt_for_install(pkg)
 
-def abort(pkg, deps):
+def abort(pkg):
     """ Abort all operations
         - pkg: Package name (Not really needed here)
-        - all_deps: List of all dependencies (Not really needed here)
      """
     exit(0)
 
-def install_pkg(pkg, deps):
+def install_pkg(pkg):
     """ Install package and all its dependencies is GOOD order using sbopkg
         - pkg: Package name
-        - all_deps: List of all dependencies (see ALL_DEPS)
     """
-    pkg_queue = "%s %s" %(" ".join(deps), pkg)
-    cmd = [SBO_EXE, SBO_OPTIONS, pkg_queue]
-    subprocess.Popen(cmd)
+    ALL_DEPS.append(pkg)
+    write_queue()
+    # Queue name must be quoted
+    queue = '"%s"' %TMP_QUEUE_FILE
+    cmd = "%s %s %s %s" %(SBO_EXE, '-k', '-i', queue)
+    subprocess.call(cmd, shell=True)
+
+def build_pkg(pkg):
+    """ Build package and all its dependencies is GOOD order using sbopkg
+        - pkg: Package name
+    """
+    ALL_DEPS.append(pkg)
+    write_queue()
+    # Queue name must be quoted
+    queue = '"%s"' %TMP_QUEUE_FILE
+    cmd = "%s %s %s %s" %(SBO_EXE, '-k', '-b', queue)
+    subprocess.call(cmd, shell=True)
+
+def write_queue():
+    """ Write queue file from ALL_DEPS
+    """
+    f = open(os.path.join(SBO_QUEUES_PATH, TMP_QUEUE_FILE), 'w')
+    for dep in ALL_DEPS:
+        f.write('%s\n' %dep)
+    f.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Retrieve and install <package> and all its dependencies using sbopkg.')
     parser.add_argument('pkg', metavar='package', help='Package name to install')
     args = parser.parse_args()
-    get_deps(args.pkg, ALL_DEPS)
-    prompt_for_install(args.pkg, ALL_DEPS)
+    get_deps(args.pkg)
+    prompt_for_install(args.pkg)
