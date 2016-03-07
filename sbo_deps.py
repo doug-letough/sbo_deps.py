@@ -87,10 +87,13 @@ def install_pkg(pkg):
         - pkg: Package name
     """
     ALL_DEPS.append(pkg)
-    write_queue()
-    # Queue name must be quoted
-    queue = '"%s"' %TMP_QUEUE_FILE
-    cmd = "%s %s %s %s" %(SBO_EXE, '-k', '-i', queue)
+    if len(ALL_DEPS) > 1:
+        write_queue()
+        # Queue name must be quoted
+        queue = '"%s"' %TMP_QUEUE_FILE
+        cmd = '%s %s %s %s' %(SBO_EXE, '-k', '-i', queue)
+    else:
+        cmd = '%s %s %s' %(SBO_EXE, '-i', pkg)
     subprocess.call(cmd, shell=True)
 
 def build_pkg(pkg):
@@ -98,10 +101,13 @@ def build_pkg(pkg):
         - pkg: Package name
     """
     ALL_DEPS.append(pkg)
-    write_queue()
-    # Queue name must be quoted
-    queue = '"%s"' %TMP_QUEUE_FILE
-    cmd = "%s %s %s %s" %(SBO_EXE, '-k', '-b', queue)
+    if len(ALL_DEPS) > 1:
+        write_queue()
+        # Queue name must be quoted
+        queue = '"%s"' %TMP_QUEUE_FILE
+        cmd = '%s %s %s %s' %(SBO_EXE, '-k', '-b', queue)
+    else:
+        cmd = '%s %s %s' %(SBO_EXE, '-b', pkg)
     subprocess.call(cmd, shell=True)
 
 def write_queue():
