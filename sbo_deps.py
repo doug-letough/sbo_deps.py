@@ -41,7 +41,7 @@ def get_deps(pkg):
                 if re.match(match_readme, dep):
                     # This package have some special instructions to be read first
                     print "\033[31mPlease read the README file for %s\033[0m" %pkg
-                    abort(None, None)
+                    abort(None)
                 if dep.strip() not in ALL_DEPS and len(dep.strip()) > 0:
                     # Retrieve dependecies for this dependency 
                     get_deps(dep.strip())
