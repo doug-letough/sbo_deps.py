@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
+#
+################################################################################
+# This script has been written by Doug Le Tough
+# and is released under the WTFPL 2.0
+# (http://www.wtfpl.net/about/').
+################################################################################
 
 import os, re, subprocess, argparse
 
