@@ -6,13 +6,14 @@ import os, re, subprocess, argparse
 # Adjust to your config the following variables
 SBO_EXE = '/usr/sbin/sbopkg'
 SBO_PATH = '/var/lib/sbopkg'
-SLACKWARE_VERSION = '14.1'
+SLACKWARE_VERSION = '14.2'
 TMP_QUEUE_FILE = 'tmp.sqf'
 SBO_REPO_PATH = os.path.join(SBO_PATH, 'SBo', SLACKWARE_VERSION)
 SBO_QUEUES_PATH = os.path.join(SBO_PATH, 'queues')
 
 # Don't touch this ;-)
 ALL_DEPS = []
+WARNING_DEPS = []
 
 def get_info(pkg):
     """ Return the .info file for pkg
@@ -40,8 +41,8 @@ def get_deps(pkg):
             for dep in deps:
                 if re.match(match_readme, dep):
                     # This package have some special instructions to be read first
-                    print "\033[31mPlease read the README file for %s\033[0m" %pkg
-                    abort(None)
+                    WARNING_DEPS.append(pkg)
+                    continue
                 if dep.strip() not in ALL_DEPS and len(dep.strip()) > 0:
                     # Retrieve dependecies for this dependency 
                     get_deps(dep.strip())
@@ -53,6 +54,11 @@ def prompt_for_install(pkg):
     """ Prompt user for Install / Abort or List dependecies
         - pkg: Package name
     """
+    if len(WARNING_DEPS):
+        print "\033[31mPlease read the README file for the following packages:\033[0m"                                                                                        
+        for warning in WARNING_DEPS:
+            print "- %s" %warning
+
     choices = {'I': install_pkg, 'i': install_pkg, \
                 'B': build_pkg, 'b': build_pkg, \
                 'A': abort, 'a': abort, \
