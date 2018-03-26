@@ -29,7 +29,9 @@ def check_installed(pkg):
         for f in files:
             ff = f.split('-')
             ff.reverse()
-            ff = '-'.join(ff[3:])
+            ff = ff[3:]
+            ff.reverse()
+            ff = '-'.join(ff)
             if ff == pkg:
                 print 'Package %s found on system. Skipping...' % ff
                 return True
