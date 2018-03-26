@@ -4,7 +4,22 @@ A simple pyhton script allowing Slackware users to recursively retrieve all depe
 
 # How to use it ?
 
-As root user run from CLI:
+At first, set the following variables accordingly to your setup:
+
+````
+SBO_EXE = '/usr/sbin/sbopkg'
+SBO_PATH = '/var/lib/sbopkg'
+SBO_BRANCH = ''
+SLACKWARE_VERSION = '14.2'
+
+````
+* **SBO_EXE**: Should be left as-is if you installed sbopkg as intended by its creators.
+* **SBO_PATH**: Must have same value as REPO_ROOT in /etc/sbopkg.conf.
+* **SBO_BRANCH**: Must be set to "-git" if you are using **Slackware-current**. Otherwise must be left empty.
+* **SLACKWARE_VERSION**: Must be left empty if you are using **Slackware-current**. Otherwise must be the same version number as found in /etc/slackware-version.
+````
+
+Then as root user run from CLI:
 
 ````
 sbo_deps.py <package name>
