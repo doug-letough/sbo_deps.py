@@ -97,10 +97,10 @@ def list_deps(pkg):
     prompt_for_install(pkg)
 
 def abort(pkg):
-    """ Abort all operations
+    """ Abort all operations and exit with code 1
         - pkg: Package name (Not really needed here)
      """
-    exit(0)
+    exit(1)
 
 def install_pkg(pkg):
     """ Install package and all its dependencies is GOOD order using sbopkg
