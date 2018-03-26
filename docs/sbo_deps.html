@@ -10,13 +10,7 @@
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>sbo_deps</strong></big></big></font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doug/projets/python/sbo_deps/sbo_deps.py">/home/doug/projets/python/sbo_deps/sbo_deps.py</a></font></td></tr></table>
-    <p><tt>#&nbsp;-*-&nbsp;coding:&nbsp;utf-8<br>
-#<br>
-################################################################################<br>
-#&nbsp;This&nbsp;script&nbsp;has&nbsp;been&nbsp;written&nbsp;by&nbsp;Doug&nbsp;Le&nbsp;Tough<br>
-#&nbsp;and&nbsp;is&nbsp;released&nbsp;under&nbsp;the&nbsp;WTFPL&nbsp;2.0<br>
-#&nbsp;(<a href="http://www.wtfpl.net/about/">http://www.wtfpl.net/about/</a>').<br>
-################################################################################</tt></p>
+    <p><tt>#&nbsp;-*-&nbsp;coding:&nbsp;utf-8</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -35,10 +29,11 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-abort"><strong>abort</strong></a>(pkg)</dt><dd><tt>Abort&nbsp;all&nbsp;operations<br>
+<td width="100%"><dl><dt><a name="-abort"><strong>abort</strong></a>(pkg)</dt><dd><tt>Abort&nbsp;all&nbsp;operations&nbsp;and&nbsp;exit&nbsp;with&nbsp;code&nbsp;1<br>
 -&nbsp;pkg:&nbsp;Package&nbsp;name&nbsp;(Not&nbsp;really&nbsp;needed&nbsp;here)</tt></dd></dl>
  <dl><dt><a name="-build_pkg"><strong>build_pkg</strong></a>(pkg)</dt><dd><tt>Build&nbsp;package&nbsp;and&nbsp;all&nbsp;its&nbsp;dependencies&nbsp;is&nbsp;GOOD&nbsp;order&nbsp;using&nbsp;sbopkg<br>
 -&nbsp;pkg:&nbsp;Package&nbsp;name</tt></dd></dl>
+ <dl><dt><a name="-check_installed"><strong>check_installed</strong></a>(pkg)</dt><dd><tt>Return&nbsp;True&nbsp;if&nbsp;pkg&nbsp;is&nbsp;already&nbsp;installed&nbsp;on&nbsp;system</tt></dd></dl>
  <dl><dt><a name="-get_deps"><strong>get_deps</strong></a>(pkg)</dt><dd><tt>Recursively&nbsp;retrieve&nbsp;all&nbsp;pkg&nbsp;dependencies<br>
 -&nbsp;pkg:&nbsp;Package&nbsp;name</tt></dd></dl>
  <dl><dt><a name="-get_info"><strong>get_info</strong></a>(pkg)</dt><dd><tt>Return&nbsp;the&nbsp;.info&nbsp;file&nbsp;for&nbsp;pkg<br>
@@ -58,12 +53,12 @@
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><strong>ALL_DEPS</strong> = []<br>
+<strong>PKG_PATH</strong> = '/var/log/packages'<br>
 <strong>SBO_BRANCH</strong> = ''<br>
 <strong>SBO_EXE</strong> = '/usr/sbin/sbopkg'<br>
 <strong>SBO_PATH</strong> = '/var/lib/sbopkg'<br>
 <strong>SBO_QUEUES_PATH</strong> = '/var/lib/sbopkg/queues'<br>
 <strong>SBO_REPO_PATH</strong> = '/var/lib/sbopkg/SBo/14.2'<br>
 <strong>SLACKWARE_VERSION</strong> = '14.2'<br>
-<strong>TMP_QUEUE_FILE</strong> = 'tmp.sqf'<br>
-<strong>WARNING_DEPS</strong> = []</td></tr></table>
+<strong>TMP_QUEUE_FILE</strong> = 'tmp.sqf'</td></tr></table>
 </body></html>
