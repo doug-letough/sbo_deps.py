@@ -1,15 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
-#
-################################################################################
-# This script has been written by Doug Le Tough
-# and is released under the WTFPL 2.0
-# (http://www.wtfpl.net/about/').
-################################################################################
 
 import os, re, subprocess, argparse
 
-# Adjust to your config the following variables
+PKG_PATH = '/var/log/packages'
 SBO_EXE = '/usr/sbin/sbopkg'
 SBO_PATH = '/var/lib/sbopkg'
 
@@ -27,7 +21,20 @@ SBO_QUEUES_PATH = os.path.join(SBO_PATH, 'queues')
 
 # Don't touch this ;-)
 ALL_DEPS = []
-WARNING_DEPS = []
+
+def check_installed(pkg):
+    """ Return True if pkg is already installed on system """
+    print "Checking for installed package %s" %pkg
+    for root, dirs, files in os.walk(PKG_PATH, pkg):
+        for f in files:
+            ff = f.split('-')
+            ff.reverse()
+            ff = '-'.join(ff[3:])
+            if ff == pkg:
+                print 'Package %s found on system. Skipping...' % ff
+                return True
+    print '%s is not installed' % pkg
+    return False
 
 def get_info(pkg):
     """ Return the .info file for pkg
@@ -55,33 +62,29 @@ def get_deps(pkg):
             for dep in deps:
                 if re.match(match_readme, dep):
                     # This package have some special instructions to be read first
-                    WARNING_DEPS.append(pkg)
-                    continue
-                if dep.strip() not in ALL_DEPS and len(dep.strip()) > 0:
+                    print "\033[31mPlease read the README file for %s\033[0m" %pkg
+                    abort(None)
+                dep  = dep.strip()
+                if dep not in ALL_DEPS and len(dep) > 0 and not check_installed(dep):
                     # Retrieve dependecies for this dependency 
-                    get_deps(dep.strip())
+                    get_deps(dep)
                     # add current dependency to dependencies list
-                    ALL_DEPS.append(dep.strip())
+                    ALL_DEPS.append(dep)
     f.close()
 
 def prompt_for_install(pkg):
     """ Prompt user for Install / Abort or List dependecies
         - pkg: Package name
     """
-    if len(WARNING_DEPS):
-        print "\033[31mPlease read the README file for the following packages:\033[0m"                                                                                        
-        for warning in WARNING_DEPS:
-            print "- %s" %warning
-
     choices = {'I': install_pkg, 'i': install_pkg, \
                 'B': build_pkg, 'b': build_pkg, \
                 'A': abort, 'a': abort, \
                 'L': list_deps, 'l': list_deps
                 }
     print "What next ?"
-    print "\t[I] - Install %s and all its dependencies" %pkg
-    print "\t[B] - Build %s (no installation) and all its dependencies" %pkg
-    print "\t[L] - List %s dependencies" %pkg
+    print "\t[I] - Install %s and all needed dependencies" %pkg
+    print "\t[B] - Build %s (no installation) and all needed dependencies" %pkg
+    print "\t[L] - List %s dependencies that will be installed" %pkg
     print "\t[A] - Abort"
     answer = raw_input()
     if answer not in choices:
@@ -142,5 +145,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Retrieve and install <package> and all its dependencies using sbopkg.')
     parser.add_argument('pkg', metavar='package', help='Package name to install')
     args = parser.parse_args()
-    get_deps(args.pkg)
-    prompt_for_install(args.pkg)
+    if not check_installed(args.pkg):
+        get_deps(args.pkg)
+        prompt_for_install(args.pkg)
