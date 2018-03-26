@@ -12,9 +12,17 @@ import os, re, subprocess, argparse
 # Adjust to your config the following variables
 SBO_EXE = '/usr/sbin/sbopkg'
 SBO_PATH = '/var/lib/sbopkg'
+
+# Use these settings for Slackware-current
+# SBO_BRANCH = '-git'
+# SLACKWARE_VERSION = ''
+
+# Use these settings for stable Slackware (default)
+SBO_BRANCH = ''
 SLACKWARE_VERSION = '14.2'
+
 TMP_QUEUE_FILE = 'tmp.sqf'
-SBO_REPO_PATH = os.path.join(SBO_PATH, 'SBo', SLACKWARE_VERSION)
+SBO_REPO_PATH = os.path.join(SBO_PATH, 'SBo%s' % SBO_BRANCH, SLACKWARE_VERSION)
 SBO_QUEUES_PATH = os.path.join(SBO_PATH, 'queues')
 
 # Don't touch this ;-)
