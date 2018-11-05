@@ -3,18 +3,12 @@
 
 import os, re, subprocess, argparse
 
+# Adjust to your config the following variables
 PKG_PATH = '/var/log/packages'
 SBO_EXE = '/usr/sbin/sbopkg'
 SBO_PATH = '/var/lib/sbopkg'
-
-# Use these settings for Slackware-current
-# SBO_BRANCH = '-git'
-# SLACKWARE_VERSION = ''
-
-# Use these settings for stable Slackware (default)
-SBO_BRANCH = ''
-SLACKWARE_VERSION = '14.2'
-
+SBO_BRANCH = '-git'
+SLACKWARE_VERSION = ''
 TMP_QUEUE_FILE = 'tmp.sqf'
 SBO_REPO_PATH = os.path.join(SBO_PATH, 'SBo%s' % SBO_BRANCH, SLACKWARE_VERSION)
 SBO_QUEUES_PATH = os.path.join(SBO_PATH, 'queues')
@@ -33,7 +27,7 @@ def check_installed(pkg):
             ff.reverse()
             ff = '-'.join(ff)
             if ff == pkg:
-                print 'Package %s found on system. Skipping...' % ff
+                print 'Package \033[92m%s\033[0m found on system. Skipping...' % ff
                 return True
     print '%s is not installed' % pkg
     return False
@@ -46,14 +40,14 @@ def get_info(pkg):
         for f in files:
             if f == "%s.info" %pkg:
                 return os.path.join(root, f)
-    print "Unable to retrieve %s. Please check package name." %pkg
+    print "Unable to retrieve \033[91m%s\033[0m. Please check package name." %pkg
     abort(pkg)
 
 def get_deps(pkg):
     """ Recursively retrieve all pkg dependencies
         - pkg: Package name
     """
-    print "Looking for %s dependencies." %pkg
+    print "Looking for \033[95m%s\033[0m dependencies." %pkg
     match_requires = 'REQUIRES'
     match_readme = "%README%"
     info =  get_info(pkg)
@@ -64,7 +58,7 @@ def get_deps(pkg):
             for dep in deps:
                 if re.match(match_readme, dep):
                     # This package have some special instructions to be read first
-                    print "\033[31mPlease read the README file for %s\033[0m" %pkg
+                    print "\033[91mPlease read the README file for %s\033[0m" %pkg
                     abort(None)
                 dep  = dep.strip()
                 if dep not in ALL_DEPS and len(dep) > 0 and not check_installed(dep):
@@ -91,7 +85,10 @@ def prompt_for_install(pkg):
     answer = raw_input()
     if answer not in choices:
         prompt_for_install(pkg)
-    choices[answer](pkg)
+    try:
+        choices[answer](pkg)
+    except IndexError:
+        pass
 
 def list_deps(pkg):
     """ Display a fancy list of all dependencies and 
